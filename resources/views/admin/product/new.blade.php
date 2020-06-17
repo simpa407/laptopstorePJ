@@ -110,6 +110,8 @@
                   <option value="">-- Chọn hệ điều hành --</option>
                   <option value="Mac OS">Mac OS</option>
                   <option value="Windows">Windows</option>
+                  <option value="Free Dos">Free Dos</option>
+                  <option value="Linux">Linux</option>
                 </select>
               </div>
             </div>
@@ -147,21 +149,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="box box-primary">
-    <div class="box-header with-border">
-      <h3 class="box-title">Thông Tin Khuyến Mãi</h3>
-      <div class="box-tools">
-        <!-- This will cause the box to collapse when clicked -->
-        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-      </div>
-    </div>
-    <div class="box-body">
-      <div id="product-promotions"></div>
-      <div class="text-center">
-        <button class="add-promotion btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Thêm Khuyến Mãi</button>
       </div>
     </div>
   </div>

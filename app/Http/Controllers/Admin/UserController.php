@@ -14,14 +14,18 @@ use App\Models\ProductVote;
 use App\Models\Order;
 use App\Mail\Admin\ActiveAccountMail;
 
+//quản lý tài khoản người dùng
 class UserController extends Controller
 {
+
+  //hiển thị danh sách các tài khoản hiện có
   public function index()
   {
     $users = User::select('id', 'name', 'email', 'phone', 'address', 'provider', 'avatar_image', 'active', 'created_at')->where('admin', '<>', true)->get();
     return view('admin.user.index')->with('users', $users);
   }
 
+  //thêm một tài khoản mới
   public function new(Request $request)
   {
     $rules = array(
@@ -61,6 +65,7 @@ class UserController extends Controller
     }
   }
 
+  //xóa một tài khoản
   public function delete(Request $request)
   {
     $user = User::where([['id', $request->user_id],['active', false]])->first();
@@ -81,6 +86,7 @@ class UserController extends Controller
     return response()->json($data, 200);
   }
 
+  //hiển thị thông tin chi tiết về một tài khoản
   public function show($id)
   {
     $user = User::select('id', 'name', 'email', 'phone', 'address', 'provider', 'avatar_image', 'active', 'created_at')->where([['id', $id], ['admin', false]])->first();
@@ -110,6 +116,7 @@ class UserController extends Controller
     return view('admin.user.show')->with(['user' => $user, 'product_votes' => $product_votes, 'orders' => $orders]);
   }
 
+  //gửi email kích hoạt tài khoản
   public function send($id)
   {
     $user = User::where([['id', $id], ['active', false], ['admin', false]])->first();

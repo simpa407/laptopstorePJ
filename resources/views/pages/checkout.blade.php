@@ -25,33 +25,6 @@
   <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
 </head>
 <body>
-    <!-- Load Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml            : true,
-          version          : 'v4.0'
-        });
-      };
-
-      (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
-    <!-- Your customer chat code -->
-    <div class="fb-customerchat"
-      attribution=setup_tool
-      page_id="106507137419133"
-      theme_color="#ff3300"
-      logged_in_greeting="{{ __('message.welcome') }}"
-      logged_out_greeting="{{ __('message.welcome') }}">
-    </div>
-
     <!-- Site Content -->
     <div class="container-fluid">
       <div class="row">
@@ -95,7 +68,7 @@
                     <label for="note">Ghi Chú</label>
                     <textarea name="note" type="text" class="form-control" id="note" rows="3"></textarea>
                   </div>
-                </form>
+                <!--</form>-->
               </div>
             </div>
             <div class="col-lg-6 col-md-6">
@@ -170,7 +143,23 @@
                 </div>
               </div>
               <div class="btn-order">
-                <button type="submit" class="btn btn-default">Đặt Hàng</button>
+                <button id="checkoutbtn" type="submit" onClick="myfunction()" class="btn btn-default">Đặt Hàng</button>
+                <script>
+                 function myfunction(e){
+                  // Swal.fire({
+                  //   title: 'Đặt Hàng',
+                  //   text: "Bạn có chắc chắn muốn đặt hàng!",
+                  //   type: 'question',    
+                  //   confirmButtonColor: '#d33',
+                  //   confirmButtonText: 'Đặt Hàng'
+                  // }).then((result) => {
+                  //   if(result.value){
+                  //     document.getElementById("checkoutbtn").submit();
+                  //   }
+                  // })
+                  confirm("Bạn chắc chắn muốn đặt hàng chứ?");
+                 }
+              </script>
               </div>
             </div>
           </div>

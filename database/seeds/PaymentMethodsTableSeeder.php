@@ -19,7 +19,7 @@ class PaymentMethodsTableSeeder extends Seeder
         ]);
         DB::table('payment_methods')->insert([
             'name' => 'Thanh Toán Online (Online Payment)',
-            'describe' =>  'Thanh toán qua cổng thanh toán NganLuong.VN',
+            'describe' =>  'Thanh toán qua tài khoản ngân hàng',
             'created_at'    =>  date('Y-m-d H:i:s', strtotime('now')),
             'updated_at'    =>  date('Y-m-d H:i:s', strtotime('now')),
         ]);

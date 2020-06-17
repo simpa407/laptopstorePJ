@@ -98,7 +98,7 @@
                       <th class="text-center">STT</th>
                       <th class="text-center">Mã<br>Sản Phẩm</th>
                       <th class="text-center">Tên<br>Sản Phẩm</th>
-                      <th class="text-center">Mầu Sắc</th>
+                      <th class="text-center">Màu Sắc</th>
                       <th class="text-center">Số Lượng</th>
                       <th class="text-center">Đơn Giá</th>
                     </tr>

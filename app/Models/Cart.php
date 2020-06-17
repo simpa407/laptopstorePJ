@@ -64,7 +64,7 @@ class Cart
       $this->totalPrice = 0;
       foreach($this->items as $key => $item) {
         $product = ProductDetail::where('id',$key)->with(['product' => function($query) {
-          $query->select('id', 'name', 'image', 'sku_code', 'RAM', 'ROM');
+          $query->select('id', 'name', 'image', 'sku_code');
         }])->select('id', 'product_id', 'color', 'quantity', 'sale_price', 'promotion_price', 'promotion_start_date', 'promotion_end_date')->first();
         $this->items[$key]['item'] = $product;
         if(($product->promotion_price > 0) && ($product->promotion_start_date <= date('Y-m-d')) && ($product->promotion_end_date >= date('Y-m-d')))

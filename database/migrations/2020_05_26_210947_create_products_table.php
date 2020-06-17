@@ -27,7 +27,7 @@ class CreateProductsTable extends Migration
             $table->string('storage')->default('Đang cập nhật...');
             $table->string('graphics')->default('Đang cập nhật...');
             $table->string('dimensions')->default('Đang cập nhật...');
-            $table->integer('weight')->default(0);
+            $table->float('weight')->default(0);
             $table->string('OS')->default('Đang cập nhật...');
             $table->string('pin')->default('Đang cập nhật...');
             $table->longText('information_details')->nullable();

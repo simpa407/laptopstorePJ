@@ -42,8 +42,6 @@
                   <div class="col-md-3 col-sm-3 col-xs-3 padding-lr5" title="{{ __('footer.jcb') }}"><div class="payment"><img src="{{ asset('images/jcb.png') }}"></div></div>
                   <div class="col-md-3 col-sm-3 col-xs-3 padding-lr5" title="{{ __('footer.cod') }}"><div class="payment"><img src="{{ asset('images/cod.png') }}"></div></div>
                 </li>
-                <li>
-                  <div class="payment-service" title="{{ __('footer.nganluong') }}"><img src="{{ asset('images/nganluong.png') }}"></div>
               </ul>
             </div>
           </div>

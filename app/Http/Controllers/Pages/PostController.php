@@ -10,15 +10,17 @@ use App\Models\Advertise;
 use App\Models\Post;
 use App\Models\Product;
 
+//hiển thị bài viết
 class PostController extends Controller
 {
+  //hiển thị danh sách các bài viết
   public function index()
   {
     $advertises = Advertise::where([
       ['start_date', '<=', date('Y-m-d')],
       ['end_date', '>=', date('Y-m-d')],
       ['at_home_page', '=', false]
-    ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+    ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
     $suggest_products = Product::select('id','name', 'image', 'rate')
     ->whereHas('product_details', function (Builder $query) {
@@ -33,13 +35,14 @@ class PostController extends Controller
     return view('pages.posts')->with(['data' => ['advertises' => $advertises, 'posts' => $posts, 'suggest_products' => $suggest_products]]);
   }
 
+  //xem một bài viết cụ thể
   public function show(Request $request)
   {
     $advertises = Advertise::where([
       ['start_date', '<=', date('Y-m-d')],
       ['end_date', '>=', date('Y-m-d')],
       ['at_home_page', '=', false]
-    ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+    ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
     $suggest_products = Product::select('id','name', 'image', 'rate')
     ->whereHas('product_details', function (Builder $query) {

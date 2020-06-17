@@ -110,6 +110,8 @@
                   <option value="">-- Chọn hệ điều hành --</option>
                   <option value="Mac OS" {{ $product->OS == 'Mac OS' ? 'selected' : '' }}>Mac OS</option>
                   <option value="Windows" {{ $product->OS == 'Windows' ? 'selected' : '' }}>Windows</option>
+                  <option value="Free Dos" {{ $product->OS == 'Free Dos' ? 'selected' : '' }}>Free Dos</option>
+                  <option value="Linux" {{ $product->OS == 'Linux' ? 'selected' : '' }}>Linux</option>
                 </select>
               </div>
             </div>
@@ -135,8 +137,8 @@
             </div>
             <div class="col-md-4">
               <div class="form-group">
-                <label for="dimension">Kích thước <span class="text-red">*</span></label>
-                <input type="text" name="dimension" class="form-control" id="dimension" placeholder="Kích thước" required autocomplete="off" value="{{ $product->dimension }}">
+                <label for="dimensions">Kích thước <span class="text-red">*</span></label>
+                <input type="text" name="dimensions" class="form-control" id="dimensions" placeholder="Kích thước" required autocomplete="off" value="{{ $product->dimensions }}">
               </div>
             </div>
             <div class="col-md-4">
@@ -147,58 +149,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="box box-primary">
-    <div class="box-header with-border">
-      <h3 class="box-title">Thông Tin Khuyến Mãi</h3>
-      <div class="box-tools">
-        <!-- This will cause the box to collapse when clicked -->
-        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-      </div>
-    </div>
-    <div class="box-body">
-      <div id="product-promotions">
-      @if($product->promotions->isNotEmpty())
-        @foreach($product->promotions as $promotion)
-        <div class="box box-solid box-default collapsed-box" style="margin-bottom: 5px;">
-          <div class="box-header">
-            <h3 class="box-title">{{ $promotion->content }}</h3>
-            <div class="box-tools">
-              <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-plus"></i></button>
-              <a href="javascript:void(0);" data-id="{{ $promotion->id }}" class="btn btn-box-tool remove-promotion" title="Xóa" data-url="{{ route('admin.product.delete_promotion') }}" style="color: #f30;">
-                <i class="fa fa-times"></i>
-              </a>
-            </div>
-          </div>
-          <div class="box-body" style="display: none;">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group" style="margin-bottom: 0;">
-                  <label for="old_promotion_{{ $promotion->id }}">Khuyến Mãi <span class="text-red">*</span></label>
-                  <input type="text" name="old_product_promotions[{{ $promotion->id }}][content]" class="form-control promotion" id="old_promotion_{{ $promotion->id }}" placeholder="Khuyến Mãi" required autocomplete="off" value="{{ $promotion->content }}">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Thời Gian Khuyến Mãi</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
-                    </div>
-                    <input type="text" class="form-control pull-right promotion-reservation" name="old_product_promotions[{{ $promotion->id }}][promotion_date]" autocomplete="off" required value="{{ date_format(date_create($promotion->start_date), 'd/m/Y').' - '.date_format(date_create($promotion->end_date), 'd/m/Y') }}">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        @endforeach
-      @endif
-      </div>
-      <div class="text-center">
-        <button class="add-promotion btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Thêm Khuyến Mãi</button>
       </div>
     </div>
   </div>
@@ -232,7 +182,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="color_{{ $product_detail->id }}">Màu Sắc <span class="text-red">*</span></label>
-                    <input type="text" name="old_product_details[{{ $product_detail->id }}][color]" class="form-control color" id="color_{{ $product_detail->id }}" placeholder="Mầu sắc" required autocomplete="off" value="{{ $product_detail->color }}">
+                    <input type="text" name="old_product_details[{{ $product_detail->id }}][color]" class="form-control color" id="color_{{ $product_detail->id }}" placeholder="Màu sắc" required autocomplete="off" value="{{ $product_detail->color }}">
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -781,7 +731,7 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="color_{?}">Màu Sắc <span class="text-red">*</span></label>
-            <input type="text" name="product_details[{?}][color]" class="form-control color" id="color_{?}" placeholder="Mầu sắc" required autocomplete="off">
+            <input type="text" name="product_details[{?}][color]" class="form-control color" id="color_{?}" placeholder="Màu sắc" required autocomplete="off">
           </div>
         </div>
         <div class="col-md-4">

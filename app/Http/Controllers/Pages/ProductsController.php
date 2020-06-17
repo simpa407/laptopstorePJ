@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\Advertise;
 use App\Models\ProductVote;
 
+//sản phẩm
 class ProductsController extends Controller
 {
   public function index(Request $request) {
@@ -60,13 +61,14 @@ class ProductsController extends Controller
       ['start_date', '<=', date('Y-m-d')],
       ['end_date', '>=', date('Y-m-d')],
       ['at_home_page', '=', false]
-    ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+    ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
     $producers = Producer::select('id', 'name')->get();
 
     return view('pages.products')->with(['data' => ['advertises' => $advertises, 'producers' => $producers, 'products' => $products]]);
   }
 
+  //thông tin về nhà sản xuất
   public function getProducer(Request $request, $id) {
 
     if($request->has('type') && $request->input('type') == 'promotion') {
@@ -91,8 +93,8 @@ class ProductsController extends Controller
     if($request->has('name') && $request->input('name') != null)
       $query_products->where('name', 'LIKE', '%' . $request->input('name') . '%');
 
-    if($request->has('os') && $request->input('os') != null)
-      $query_products->where('OS', 'LIKE', '%' . $request->input('os') . '%');
+    if($request->has('OS') && $request->input('OS') != null)
+      $query_products->where('OS', 'LIKE', '%' . $request->input('OS') . '%');
 
     if($request->has('price') && $request->input('price') != null) {
       $min_price_query = ProductDetail::select('product_id', DB::raw('min(sale_price) as min_sale_price'))->where('quantity', '>', 0)->groupBy('product_id');
@@ -113,7 +115,7 @@ class ProductsController extends Controller
       ['start_date', '<=', date('Y-m-d')],
       ['end_date', '>=', date('Y-m-d')],
       ['at_home_page', '=', false]
-    ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+    ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
     $producers = Producer::where('id', '<>', $id)->select('id', 'name')->get();
     $producer = Producer::select('id', 'name')->find($id);
@@ -129,18 +131,13 @@ class ProductsController extends Controller
       ['start_date', '<=', date('Y-m-d')],
       ['end_date', '>=', date('Y-m-d')],
       ['at_home_page', '=', false]
-    ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+    ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
     $product = Product::select('id', 'producer_id', 'name', 'sku_code',  'display', 'cpu', 'ram', 'storage', 'graphics', 'dimensions', 'weight', 'OS', 'pin', 'rate', 'information_details', 'product_introduction')
       ->whereHas('product_details', function (Builder $query) {
         $query->where('import_quantity', '>', 0);
       })
-      ->where('id', $id)->with(['promotions' => function ($query) {
-        $query->select('id', 'product_id', 'content')
-              ->where([['start_date', '<=', date('Y-m-d')],
-                ['end_date', '>=', date('Y-m-d')]])
-              ->latest();
-        }])->with(['producer' => function ($query) {
+      ->where('id', $id)->with(['producer' => function ($query) {
           $query->select('id', 'name');
         }])->first();
 
@@ -170,6 +167,7 @@ class ProductsController extends Controller
     return view('pages.product')->with(['data' => ['advertises' => $advertises, 'product' => $product, 'product_details' => $product_details, 'suggest_products' => $suggest_products, 'product_votes' => $product_votes]]);
   }
 
+  //thêm đánh giá về sản phẩm
   public function addVote(Request $request) {
     $vote = ProductVote::updateOrCreate(
         ['user_id' => $request->user_id, 'product_id' => $request->product_id],

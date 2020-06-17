@@ -9,6 +9,8 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
+
+  //hiển thị danh sách các đơn đặt hàng
   public function index()
   {
     $orders = Order::select('id', 'user_id', 'payment_method_id', 'order_code', 'name', 'email', 'phone', 'created_at')->where('status', '<>', 0)->with([
@@ -22,6 +24,7 @@ class OrderController extends Controller
     return view('admin.order.index')->with('orders', $orders);
   }
 
+  //xem thông tin chi tiết về một đơn hàng cụ thể
   public function show($id)
   {
     $order = Order::select('id', 'user_id', 'payment_method_id', 'order_code', 'name', 'email', 'phone', 'address', 'created_at')->where([['status', '<>', 0], ['id', $id]])->with([

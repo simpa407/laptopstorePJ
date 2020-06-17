@@ -8,7 +8,7 @@
     'mastercard'       =>      'MasterCard method',
     'jcb'              =>      'JCB method',
     'cod'              =>      'Cash on Delivery - COD.',
-    'nganluong'        =>      'Provided by NganLuong.',
+    'onlinepayment'    =>      'Online Payment',
     'payment'          =>      'Payment Method',
     'support'          =>      'Customer Support',
   ];

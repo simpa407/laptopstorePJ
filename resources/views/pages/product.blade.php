@@ -115,16 +115,6 @@
                       </div>
                     </div>
                   </div>
-                  @if($data['product']->promotions->isNotEmpty())
-                    <div class="promotions">
-                      <div class="title">Khuyến mại đặc biệt</div>
-                      <ul class="content">
-                        @foreach($data['product']->promotions as $promotion)
-                          <li>{{ $promotion->content }}</li>
-                        @endforeach
-                      </ul>
-                    </div>
-                  @endif
                   <div class="form-payment">
                     <form action="{{ route('show_checkout') }}" method="POST" accept-charset="utf-8">
                       @csrf

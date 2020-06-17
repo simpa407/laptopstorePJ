@@ -9,17 +9,24 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Models\Advertise;
 
+//quản lý quảng cáo của admin
 class AdvertiseController extends Controller
 {
+
+  //hiển thị thông tin tất cả quảng cáo
   public function index()
   {
     $advertises = Advertise::select('id', 'title', 'image', 'at_home_page', 'start_date', 'end_date', 'created_at')->latest()->get();
     return view('admin.advertise.index')->with('advertises', $advertises);
   }
+
+  //thêm quảng cáo mới
   public function new()
   {
     return view('admin.advertise.new');
   }
+
+  //lưu quảng cáo vào cơ sở dữ liệu
   public function save(Request $request)
   {
     $validator = Validator::make($request->all(), [
@@ -72,17 +79,18 @@ class AdvertiseController extends Controller
     ]]);
   }
 
+  //xóa quảng cáo
   public function delete(Request $request)
   {
     $advertise = Advertise::where('id', $request->advertise_id)->first();
-
+ 
     if(!$advertise) {
 
       $data['type'] = 'error';
       $data['title'] = 'Thất Bại';
       $data['content'] = 'Bạn không thể xóa quảng cáo không tồn tại!';
     } else {
-      Storage::disk('public')->delete('images/advertises/' . $advertise->image);
+      Storage::disk('public')->delete('storage/images/advertises/' . $advertise->image);
 
       $advertise->delete();
 
@@ -94,6 +102,7 @@ class AdvertiseController extends Controller
     return response()->json($data, 200);
   }
 
+  //chỉnh sửa thông tin quảng cáo
   public function edit($id)
   {
     $advertise = Advertise::where('id', $id)->first();

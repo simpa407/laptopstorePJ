@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\Advertise;
 
+//quản lý đơn đặt hàng của khách hàng
 class OrderController extends Controller
 {
+  //hiển thị danh sách các đơn đặt hàng mà khách hàng đã đặt
   public function index(Request $request)
   {
     if(Auth::check() && Auth::user()->admin == 0) {
@@ -18,7 +20,7 @@ class OrderController extends Controller
         ['start_date', '<=', date('Y-m-d')],
         ['end_date', '>=', date('Y-m-d')],
         ['at_home_page', '=', false]
-      ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+      ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
       $orders = Order::where('user_id', Auth::user()->id)->with([
         'payment_method' => function ($query) {
@@ -52,6 +54,7 @@ class OrderController extends Controller
     }
   }
 
+  //xem thông tin về một đơn đặt hàng
   public function show($id)
   {
     if(Auth::check() && Auth::user()->admin == 0) {
@@ -59,7 +62,7 @@ class OrderController extends Controller
         ['start_date', '<=', date('Y-m-d')],
         ['end_date', '>=', date('Y-m-d')],
         ['at_home_page', '=', false]
-      ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+      ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
       $order = Order::where('id', $id)->with([
         'payment_method' => function($query) {

@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Models\Product;
 use App\Models\Producer;
-use App\Models\Promotion;
 use App\Models\ProductDetail;
 use App\Models\ProductImage;
 use App\Models\OrderDetail;
 
+//quản lý sản phẩm của admin
 class ProductController extends Controller
 {
+  //hiển thị danh sách tất cả các sản phẩm hiện có
   public function index()
   {
     $products = Product::select('id', 'producer_id', 'name', 'image', 'sku_code', 'OS', 'rate', 'created_at')
@@ -36,6 +37,7 @@ class ProductController extends Controller
     return view('admin.product.index')->with('products', $products);
   }
 
+  //xóa một sản phẩm
   public function delete(Request $request)
   {
     $product = Product::whereHas('product_details', function (Builder $query) {
@@ -67,9 +69,6 @@ class ProductController extends Controller
           }
           $product_detail->delete();
         }
-        foreach ($product->promotions as $promotion) {
-          $promotion->delete();
-        }
         foreach ($product->product_votes as $product_vote) {
           $product_vote->delete();
         }
@@ -90,9 +89,6 @@ class ProductController extends Controller
             $product_detail->save();
           }
         }
-        foreach ($product->promotions as $promotion) {
-          $promotion->delete();
-        }
       }
 
       $data['type'] = 'success';
@@ -103,12 +99,14 @@ class ProductController extends Controller
     return response()->json($data, 200);
   }
 
+  //thêm một sản phẩm mới
   public function new(Request $request)
   {
     $producers = Producer::select('id', 'name')->orderBy('name', 'asc')->get();
     return view('admin.product.new')->with('producers', $producers);
   }
 
+  //lưu thông tin vào cơ sở dữ liệu 
   public function save(Request $request)
   {
     $product = new Product;
@@ -229,28 +227,6 @@ class ProductController extends Controller
 
     $product->save();
 
-    if ($request->has('product_promotions')) {
-      foreach ($request->product_promotions as $product_promotion) {
-        $promotion = new Promotion;
-        $promotion->product_id = $product->id;
-        $promotion->content = $product_promotion['content'];
-
-        //Xử lý ngày bắt đầu, ngày kết thúc
-        list($start_date, $end_date) = explode(' - ', $product_promotion['promotion_date']);
-
-        $start_date = str_replace('/', '-', $start_date);
-        $start_date = date('Y-m-d', strtotime($start_date));
-
-        $end_date = str_replace('/', '-', $end_date);
-        $end_date = date('Y-m-d', strtotime($end_date));
-
-        $promotion->start_date = $start_date;
-        $promotion->end_date = $end_date;
-
-        $promotion->save();
-      }
-    }
-
     if ($request->has('product_details')) {
       foreach ($request->product_details as $key => $product_detail) {
         $new_product_detail = new ProductDetail;
@@ -299,6 +275,7 @@ class ProductController extends Controller
     ]]);
   }
 
+  //chỉnh sửa thông tin của sản phẩm
   public function edit($id)
   {
     $producers = Producer::select('id', 'name')->orderBy('name', 'asc')->get();
@@ -306,9 +283,6 @@ class ProductController extends Controller
     ->whereHas('product_details', function (Builder $query) {
       $query->where('import_quantity', '>', 0);
     })->where('id', $id)->with([
-      'promotions' => function ($query) {
-        $query->select('id', 'product_id', 'content', 'start_date', 'end_date');
-      },
       'product_details' => function ($query) {
         $query->select('id', 'product_id', 'color', 'import_quantity', 'import_price', 'sale_price', 'promotion_price', 'promotion_start_date', 'promotion_end_date')->where('import_quantity', '>', 0)
         ->with([
@@ -325,6 +299,7 @@ class ProductController extends Controller
     return view('admin.product.edit')->with(['product' => $product, 'producers' =>$producers]);
   }
 
+  //cập nhật thông tin của sản phẩm
   public function update(Request $request, $id) {
 
     $product = Product::whereHas('product_details', function (Builder $query) {
@@ -431,9 +406,9 @@ class ProductController extends Controller
     $product->display = $request->display;
     $product->dimensions = $request->dimensions;
     $product->weight = $request->weight;
-    $product->CPU = $request->CPU;
+    $product->cpu = $request->cpu;
     $product->storage = $request->storage;
-    $product->RAM = $request->RAM;
+    $product->ram = $request->ram;
     $product->graphics = $request->graphics;
     $product->OS = $request->OS;
     $product->pin = $request->pin;
@@ -447,51 +422,6 @@ class ProductController extends Controller
     }
 
     $product->save();
-
-    if ($request->has('old_product_promotions')) {
-      foreach ($request->old_product_promotions as $key => $old_product_promotion) {
-        $promotion = Promotion::where('id', $key)->first();
-        if(!$promotion) abort(404);
-
-        $promotion->content = $old_product_promotion['content'];
-
-        //Xử lý ngày bắt đầu, ngày kết thúc
-        list($start_date, $end_date) = explode(' - ', $old_product_promotion['promotion_date']);
-
-        $start_date = str_replace('/', '-', $start_date);
-        $start_date = date('Y-m-d', strtotime($start_date));
-
-        $end_date = str_replace('/', '-', $end_date);
-        $end_date = date('Y-m-d', strtotime($end_date));
-
-        $promotion->start_date = $start_date;
-        $promotion->end_date = $end_date;
-
-        $promotion->save();
-      }
-    }
-
-    if ($request->has('product_promotions')) {
-      foreach ($request->product_promotions as $product_promotion) {
-        $promotion = new Promotion;
-        $promotion->product_id = $product->id;
-        $promotion->content = $product_promotion['content'];
-
-        //Xử lý ngày bắt đầu, ngày kết thúc
-        list($start_date, $end_date) = explode(' - ', $product_promotion['promotion_date']);
-
-        $start_date = str_replace('/', '-', $start_date);
-        $start_date = date('Y-m-d', strtotime($start_date));
-
-        $end_date = str_replace('/', '-', $end_date);
-        $end_date = date('Y-m-d', strtotime($end_date));
-
-        $promotion->start_date = $start_date;
-        $promotion->end_date = $end_date;
-
-        $promotion->save();
-      }
-    }
 
     if ($request->has('old_product_details')) {
       foreach ($request->old_product_details as $key => $product_detail) {
@@ -588,27 +518,7 @@ class ProductController extends Controller
     ]]);
   }
 
-  public function delete_promotion(Request $request)
-  {
-    $promotion = Promotion::where('id', $request->promotion_id)->first();
-
-    if(!$promotion) {
-
-      $data['type'] = 'error';
-      $data['title'] = 'Thất Bại';
-      $data['content'] = 'Bạn không thể xóa khuyễn mãi không tồn tại!';
-    } else {
-
-      $promotion->delete();
-
-      $data['type'] = 'success';
-      $data['title'] = 'Thành Công';
-      $data['content'] = 'Xóa khuyến mãi thành công!';
-    }
-
-    return response()->json($data, 200);
-  }
-
+  //xóa thông tin chi tiết của sản phẩm
   public function delete_product_detail(Request $request)
   {
     $product_detail = ProductDetail::where([['id', $request->product_detail_id], ['import_quantity', '>', 0]])->first();
@@ -640,6 +550,7 @@ class ProductController extends Controller
     return response()->json($data, 200);
   }
 
+  //xóa các hình ảnh về sản phẩm
   public function delete_image(Request $request)
   {
     $image = ProductImage::find($request->key);

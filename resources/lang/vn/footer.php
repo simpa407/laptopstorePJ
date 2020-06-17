@@ -8,7 +8,7 @@
     'mastercard'       =>      'Thanh toán bằng thẻ MasterCard.',
     'jcb'              =>      'Thanh toán bằng thẻ JCB.',
     'cod'              =>      'Thanh toán khi nhận hàng.',
-    'nganluong'        =>      'Giải pháp thanh toán qua Ngân Lượng.',
+    'onlinepayment'    =>      'Giải pháp thanh toán online.',
     'payment'          =>      'Hỗ Trợ Thanh Toán',
     'support'          =>      'Hỗ Trợ Khách Hàng',
   ];

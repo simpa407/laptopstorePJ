@@ -10,14 +10,9 @@ use App\Models\Product;
 use App\Models\Advertise;
 use App\Models\Post;
 
+//tìm kiếm sản phẩm
 class SearchController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function __invoke(Request $request)
     {
         if($request->has('search_key') && $request->search_key != null) {
@@ -25,9 +20,9 @@ class SearchController extends Controller
               ['start_date', '<=', date('Y-m-d')],
               ['end_date', '>=', date('Y-m-d')],
               ['at_home_page', '=', false]
-            ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+            ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
-            $products = Product::select('id','name', 'image', 'monitor', 'front_camera', 'rear_camera', 'CPU', 'GPU', 'RAM', 'ROM', 'OS', 'pin', 'rate')
+            $products = Product::select('id','name', 'image', 'display', 'weight', 'dimensions', 'CPU', 'storage', 'RAM', 'graphics', 'OS', 'pin', 'rate')
             ->where('name', 'LIKE', '%' . $request->search_key . '%')
             ->whereHas('product_detail', function (Builder $query) {
                 $query->where('quantity', '>', 0);

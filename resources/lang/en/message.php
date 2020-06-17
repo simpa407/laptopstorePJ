@@ -1,5 +1,5 @@
 <?php
 
   return [
-    'welcome'       =>      'Welcome to Phone Store!',
+    'welcome'       =>      'Welcome to Laptop Store!',
   ];

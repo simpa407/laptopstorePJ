@@ -1,13 +1,12 @@
 <header class="main-header">
 
   <!-- Logo -->
-  <a href="{{ route('admin.dashboard') }}" class="logo">
+  <a href="{{ route('home_page') }}" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>A</b>PS</span>
+    <span class="logo-mini"><b>A</b>LS</span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>Admin</b> {{ config('app.name') }}</span>
+    <span class="logo-lg"> {{ config('app.name') }}</span>
   </a>
-
   <!-- Header Navbar -->
   <nav class="navbar navbar-static-top" role="navigation">
     <!-- Sidebar toggle button-->

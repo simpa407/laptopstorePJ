@@ -11,17 +11,23 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Post;
 
+// quản lý bài viết của admin
 class PostController extends Controller
 {
+  //hiển thị danh sách các bài viết
   public function index(Request $request)
   {
     $posts = Post::select('id', 'title', 'image', 'created_at')->latest()->get();
     return view('admin.post.index')->with('posts', $posts);
   }
+
+  //thêm một bài viết mới
   public function new(Request $request)
   {
     return view('admin.post.new');
   }
+
+  //lưu thông tin bài viết vào cơ sở dữ liệu
   public function save(Request $request)
   {
 
@@ -105,6 +111,7 @@ class PostController extends Controller
     ]]);
   }
 
+  //xóa một bài viết
   public function delete(Request $request)
   {
     $post = Post::where('id', $request->post_id)->first();
@@ -150,12 +157,15 @@ class PostController extends Controller
     return response()->json($data, 200);
   }
 
+//chỉnh sửa thông tin bài viết
   public function edit($id)
   {
     $post = Post::where('id', $id)->first();
     if(!$post) abort(404);
     return view('admin.post.edit')->with('post', $post);
   }
+
+  //cập nhật lại thông tin bài viết lên csdl
   public function update(Request $request, $id)
   {
     $validator = Validator::make($request->all(), [

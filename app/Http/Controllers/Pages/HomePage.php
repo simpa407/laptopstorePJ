@@ -13,17 +13,12 @@ use App\Models\ProductDetail;
 use App\Models\Advertise;
 use App\Models\Post;
 
+//trang chủ
 class HomePage extends Controller
 {
-  /**
-   * Handle the incoming request.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
+  //lấy thông tin sản phẩm, sản phẩm ưa thích, quảng cáo
   public function __invoke()
   {
-
     $products = Product::select('id','name', 'image',  'display', 'cpu', 'ram', 'storage', 'graphics', 'dimensions', 'weight', 'OS', 'pin', 'rate')
     ->whereHas('product_detail', function (Builder $query) {
         $query->where('quantity', '>', 0);
@@ -46,7 +41,7 @@ class HomePage extends Controller
       ['start_date', '<=', date('Y-m-d')],
       ['end_date', '>=', date('Y-m-d')],
       ['at_home_page', '=', true]
-    ])->latest()->limit(5)->get(['product_id', 'title', 'image']);
+    ])->latest()->limit(5)->get(['id', 'title', 'image']);
 
     $posts = Post::select('id', 'title', 'image', 'created_at')->latest()->limit(4)->get();
 

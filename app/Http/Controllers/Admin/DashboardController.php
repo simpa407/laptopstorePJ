@@ -13,6 +13,8 @@ use App\Models\Order;
 
 class DashboardController extends Controller
 {
+
+  //hiển thị thông tin chung trên dashborad
   public function index() {
 
     $count['user'] = User::where([['active', true], ['admin', false]])->count();

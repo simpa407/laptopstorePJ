@@ -101,7 +101,7 @@
           <div class="row">
             <div class="col-md-8">
               <p class="text-center">
-                Từ 01/01/2019 - 30/07/2019
+                Từ 01/01/2020 - 30/05/2020
               </p>
 
               <div class="chart">

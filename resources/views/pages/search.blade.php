@@ -59,19 +59,23 @@
                       </div>
                       <div class="col-md-12 col-sm-12 col-xs-12 animate">
                         <div class="product-details">
-                        <p><strong><i class="fas fa-tv"></i> Màn Hình: </strong>{{ $product->display }}</p>
+                          <p><strong><i class="fas fa-tv"></i> Màn Hình: </strong>{{ $product->display }}</p>
                           <p><strong><i class="fas fa-microchip"></i> CPU: </strong>{{ $product->cpu }}</p>
                           <p><strong><i class="fas fa-microchip"></i> RAM: </strong>{{ $product->ram }}</p>
-                          <p><strong><i class="fas fa-microchip"></i> Card màn hình: </strong>{{ $product->graphics }}</p>
-                          <p><strong><i class="fas fa-microchip"></i>Ổ cứng: </strong>{{ $product->storage }}</p>
-                          <p><strong><i class="fas fa-hdd"></i> Kích thước: </strong>{{ $product->dimensions }}</p>
-                          <p><strong><i class="fas fa-hdd"></i> Trọng lượng: </strong>{{ $product->weight }}kg</p>
-                          @if(Str::is('*MacOS*', $product->OS_version))
-                            <p><strong><i class="fab fa-apple"></i> HĐH: </strong>{{ $product->OS_version }}</p>
+                          <p><strong><i class="fas fa-ticket-alt"></i> Card màn hình: </strong>{{ $product->graphics }}</p>
+                          <p><strong><i class="fas fa-hdd"></i>Ổ cứng: </strong>{{ $product->storage }}</p>
+                          <p><strong><i class="fas fa-shapes"></i> Kích thước: </strong>{{ $product->dimensions }}</p>
+                          <p><strong><i class="fas fa-balance-scale"></i> Trọng lượng: </strong>{{ $product->weight }}kg</p>
+                          @if(Str::is('*Mac OS*', $product->OS))
+                            <p><strong><i class="fab fa-apple"></i> HĐH: </strong>{{ $product->OS}}</p>
+                          @elseif(Str::is('*Windows*', $product->OS))
+                            <p><strong><i class="fab fa-windows"></i> HĐH: </strong>{{ $product->OS}}</p>
+                          @elseif(Str::is('*Free Dos*', $product->OS))
+                            <p><strong><i class="fab fa-qq"></i> HĐH: </strong>{{ $product->OS}}</p>
                           @else
-                            <p><strong><i class="fab fa-windows"></i> HĐH: </strong>{{ $product->OS_version }}</p>
+                            <p><strong><i class="fab fa-linux"></i>HĐH: </strong>{{ $product->OS}}</p>
                           @endif
-                          <p><strong><i class="fas fa-battery-full"></i> Dung Lượng PIN: </strong>{{ $product->pin }}</p>
+                            <p><strong><i class="fas fa-battery-full"></i> Dung Lượng PIN: </strong>{{ $product->pin }}</p>
                         </div>
                       </div>
                     </div>
